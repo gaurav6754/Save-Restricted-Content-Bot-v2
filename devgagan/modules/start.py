@@ -2,14 +2,6 @@
 # File Name: start.py
 # Description: A Pyrogram bot for downloading files from Telegram channels or groups 
 #              and uploading them back to Telegram.
-# Author: Gagan
-# GitHub: https://github.com/devgaganin/
-# Telegram: https://t.me/team_spy_pro
-# YouTube: https://youtube.com/@dev_gagan
-# Created: 2025-01-11
-# Last Modified: 2025-01-11
-# Version: 2.0.5
-# License: MIT License
 # ---------------------------------------------------
 
 from pyrogram import filters
@@ -58,8 +50,28 @@ async def set(_, message):
     ])
  
     await message.reply("✅ Commands configured successfully!")
- 
- 
+
+
+@app.on_message(filters.command("start") & filters.private)
+async def start_command(client, message):
+    join = await subscribe(client, message)
+    if join == 1:
+        return
+    
+    welcome_text = (
+        "Hi 👋 Welcome, Wanna intro...?\n\n"
+        "✨ I can save posts from channels or groups where forwarding is off. I can download videos/audio from YT, INSTA, ... social platforms\n"
+        "✨ Simply send the post link of a public channel. For private channels, do /login. Send /help to know more."
+    )
+    
+    buttons = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("Join Channel", url="https://t.me/+uAe_KarmBBxiYTM1")],
+            [InlineKeyboardButton("Get Premium", url="https://t.me/Sudhu123466")],
+        ]
+    )
+    
+    await message.reply_text(welcome_text, reply_markup=buttons)
  
  
 help_pages = [
@@ -109,7 +121,6 @@ help_pages = [
         "> 4. REPLACEWORDS : Can be used for words in deleted set via REMOVE WORDS\n"
         "> 5. RESET : To set the things back to default\n\n"
         "> You can set CUSTOM THUMBNAIL, PDF WATERMARK, VIDEO WATERMARK, SESSION-based login, etc. from settings\n\n"
-        "**__Powered by Team SPY__**"
     )
 ]
  
@@ -243,5 +254,3 @@ async def see_terms(client, callback_query):
         ]
     )
     await callback_query.message.edit_text(terms_text, reply_markup=buttons)
- 
- 
